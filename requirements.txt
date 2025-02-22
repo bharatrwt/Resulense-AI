@@ -1,3 +1,4 @@
+bcrypt
 streamlit
 streamlit-option-menu
 python-docx
