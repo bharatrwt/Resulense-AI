@@ -16,3 +16,10 @@ requests
 spacy
 PyPDF2
 python-dotenv
+smtplib
+random
+os
+time
+random
+string
+dotenv
