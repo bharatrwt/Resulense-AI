@@ -16,8 +16,3 @@ requests
 spacy
 PyPDF2
 python-dotenv
-random
-os
-time
-random
-string
