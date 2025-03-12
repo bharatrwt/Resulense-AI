@@ -1401,7 +1401,7 @@ class ResumeApp:
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                   keyword_match_score = analysis.get('keyword_match', {}).get('score', 0)
+                    keyword_match_score = analysis.get('keyword_match', {}).get('score', 0)
                     format_score = analysis.get('format_score', 0)
                     section_score = analysis.get('section_score', 0)
                     
