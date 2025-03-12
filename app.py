@@ -1401,56 +1401,63 @@ class ResumeApp:
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    # ATS Score Card with circular progress
+                   keyword_match_score = analysis.get('keyword_match', {}).get('score', 0)
+                    format_score = analysis.get('format_score', 0)
+                    section_score = analysis.get('section_score', 0)
+                    
+                    # Calculate ATS Score as the average of keyword match, format, and section scores
+                    ats_score = round((keyword_match_score + format_score + section_score) / 3)
+                    
                     st.markdown("""
-                    <div class="feature-card">
-                        <h2>ATS Score</h2>
-                        <div style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
-                            <div style="
-                                position: absolute;
-                                width: 150px;
-                                height: 150px;
-                                border-radius: 50%;
-                                background: conic-gradient(
-                                    #4CAF50 0% {score}%,
-                                    #2c2c2c {score}% 100%
-                                );
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                            ">
+                        <div class="feature-card">
+                            <h2>ATS Score</h2>
+                            <div style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
                                 <div style="
-                                    width: 120px;
-                                    height: 120px;
-                                    background: #1a1a1a;
+                                    position: absolute;
+                                    width: 150px;
+                                    height: 150px;
                                     border-radius: 50%;
+                                    background: conic-gradient(
+                                        #4CAF50 0% {score}%,
+                                        #2c2c2c {score}% 100%
+                                    );
                                     display: flex;
                                     align-items: center;
                                     justify-content: center;
-                                    font-size: 24px;
-                                    font-weight: bold;
-                                    color: {color};
                                 ">
-                                    {score}
+                                    <div style="
+                                        width: 120px;
+                                        height: 120px;
+                                        background: #1a1a1a;
+                                        border-radius: 50%;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        font-size: 24px;
+                                        font-weight: bold;
+                                        color: {color};
+                                    ">
+                                        {score}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="text-align: center; margin-top: 10px;">
-                            <span style="
-                                font-size: 1.2em;
-                                color: {color};
-                                font-weight: bold;
-                            ">
-                                {status}
-                            </span>
-                        </div>
-                    """.format(
-                        score=analysis['ats_score'],
-                        color='#4CAF50' if analysis['ats_score'] >= 80 else '#FFA500' if analysis['ats_score'] >= 60 else '#FF4444',
-                        status='Excellent' if analysis['ats_score'] >= 80 else 'Good' if analysis['ats_score'] >= 60 else 'Needs Improvement'
-                    ), unsafe_allow_html=True)
+                            <div style="text-align: center; margin-top: 10px;">
+                                <span style="
+                                    font-size: 1.2em;
+                                    color: {color};
+                                    font-weight: bold;
+                                ">
+                                    {status}
+                                </span>
+                            </div>
+                        """.format(
+                            score=ats_score,
+                            color='#4CAF50' if ats_score >= 80 else '#FFA500' if ats_score >= 60 else '#FF4444',
+                            status='Excellent' if ats_score >= 80 else 'Good' if ats_score >= 60 else 'Needs Improvement'
+                        ), unsafe_allow_html=True)
                     
                     st.markdown("</div>", unsafe_allow_html=True)
+
                                         
                     # self.display_analysis_results(analysis_results)
 
