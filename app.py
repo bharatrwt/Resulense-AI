@@ -65,7 +65,24 @@ conn.commit()
 
 # Helper functions
 def is_valid_email(email):
-    return bool(re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email))
+    # Validate email structure
+    pattern = r'^[a-zA-Z0-9_.+-]+@(?:gmail|yahoo|outlook|hotmail|icloud|protonmail|zoho)\.(?:com|net|org|in)$'
+    return bool(re.match(pattern, email))
+
+def is_strong_password(password):
+    # Minimum 8 chars, 1 uppercase, 1 lowercase, 1 digit, 1 special character
+    if len(password) < 8:
+        return False
+    if not re.search(r'[A-Z]', password):
+        return False
+    if not re.search(r'[a-z]', password):
+        return False
+    if not re.search(r'\d', password):
+        return False
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        return False
+    return True
+
 
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -162,10 +179,10 @@ def auth_screen():
 
         if st.button("🚀 Sign Up", use_container_width=True):
             if not is_valid_email(email):
-                st.error("❌ Invalid email format!")
+                st.error("❌ Please use a valid email (e.g., Gmail, Outlook, etc.)!")
                 return
-            if len(password) < 6:
-                st.warning("⚠️ Password should be at least 6 characters.")
+            if not is_strong_password(password):
+                st.warning("⚠️ Password must be at least 8 characters long and include an uppercase, lowercase, number, and special character!")
                 return
             hashed_password = hash_password(password)
             try:
